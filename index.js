@@ -15,7 +15,7 @@ function processResponse(error, response, html){
           return false;
         }
     });
-    concole.log(faviconUrl);
+    console.log(faviconUrl);
     if (faviconUrl.indexOf("/") === 0) { // If path returned is relative
         faviconUrl = "https://" + domain + faviconUrl;
     }
@@ -37,6 +37,6 @@ function getFaviconUrl(url){
 
 exports.handler = (event, context, callback) => {
     getFaviconUrl(event.url);
-    callback(null, faviconUrl);
+    callback(null, faviconUrl)
     //callback('Something went wrong');
 }
