@@ -41,3 +41,4 @@ exports.handler = (event, context, callback) => {
     getFaviconUrl(event.url);
     callback(null, faviconUrl);
     //callback('Something went wrong');
+}
