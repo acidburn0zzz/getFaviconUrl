@@ -6,37 +6,36 @@ var faviconUrl = "";
 
 console.log('Loading lambda function');
 
-function processResponse(error, response, html){
-    const $ = cheerio.load(html);
-    $("link").each(function(i, element){
-        const rel = $(element).attr("rel");
-        if (rel === "icon" || rel === "shortcut icon") {
-          faviconUrl = $(element).attr("href");
-          return false;
-        }
-    });
-    console.log(faviconUrl);
-    if (faviconUrl.indexOf("/") === 0) { // If path returned is relative
-        faviconUrl = "https://" + domain + faviconUrl;
-    }
-}
-
 function getFaviconUrl(url){
     var urlParts = url.replace('http://','').replace('https://','').split(/[/?#]/);
     var domain = "https://" + urlParts[0];
-    console.log(domain);
     var options = {
         url: domain,
-        method: "POST",
+        method: "GET",
         headers: {
-            "Content-Type": "text/html"
+            "Accept": "text/html"
         }
     };
-    request(options, processResponse);
+    request(options, function (error, response, html){
+        if (!error && response.statusCode == 200) {
+            const $ = cheerio.load(html);
+            console.log(html);
+            $("link", "head", html).each(function(i, element){
+                console.log(element);
+                const rel = $(element).attr("rel");
+                if (rel === "icon" || rel === "shortcut icon" || rel === "fluid-icon") {
+                  faviconUrl = $(element).attr("href");
+                  return false;
+                }
+            });
+            if (faviconUrl.indexOf("/") === 0) { // If path returned is relative
+                faviconUrl = "https://" + domain + faviconUrl;
+            }
+        }
+    });
 }
 
 exports.handler = (event, context, callback) => {
     getFaviconUrl(event.url);
     callback(null, faviconUrl)
-    //callback('Something went wrong');
 }
