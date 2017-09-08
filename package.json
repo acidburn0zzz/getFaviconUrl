@@ -1,0 +1,19 @@
+{
+    "name" : "getfaviconurl",
+    "description" : "AWS lambda function to retrieve the favicon url of a website.",
+    "homepage" : "https://github.com/odebroqueville/getFaviconUrl",
+    "keywords" : ["aws", "lambda", "node", "javascript"],
+    "author" : "Olivier de Broqueville",
+    "contributors" : [],
+    "dependencies" : {
+        "request" : "request/request",
+        "cheerio" : "cheeriojs/cheerio"
+    },
+    "repository" : {
+        "type": "git", 
+        "url": "https://github.com/odebroqueville/getFaviconUrl.git"
+    },
+    "main" : "index.js",
+    "version" : "1.0.0",
+    "license" : "GPL-3.0"
+  }
